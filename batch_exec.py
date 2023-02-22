@@ -1,41 +1,53 @@
 from pathlib import Path
 import os
-# Model inputs
-var_dict = {"alpha": [.1, .9],  # 2
-             "beta": [.1, .25, .5],  # 3
-             "number": [2, 500, 1000]}  # 3
 
-single_cell = {"side": [4, 6, 8, 10, 12]}
+# Model inputs to be changed must be in a dictionary format with the same 
+# name as the created BatchTest.py file
+var_dict = {"PARAMETER_NAME":    [.1, .9],          # 2
+            "PARAMETER_NAME2":   [.1, .25, .5],     # 3
+            "PARAMETER_NAME3":   [2, 500, 1000]}    # 3
 
-mult_dict = single_cell
+# single_cell = {"side": [4, 6, 8, 10, 12]}
+
+mult_dict = var_dict
+
 # number of replicates
 num_rep = 4
+
 # Model output frequency
 model_out_freq = 1
+
 # Output frequency of simulation data per simulation replica
-out_freq = 250
+out_freq = 250 # VTK frequence in MCS
+
 # Root output directory
-sweep_output_folder = r'/N/u/jferrari/Carbonate/in_class_ex'
+sweep_output_folder = r'/N/u/jvanin/Carbonate/Projects/vCornea/Batch_Output'
 if not os.path.isdir(sweep_output_folder):
     Path(sweep_output_folder).mkdir(parents=True)
 
-# Input modules
+# Input modules 
 # from Models.Motion.Simulation import UniCellModelInputs
-from Models.SingleCell.Simulation import CellInputs
-input_modules = [CellInputs]
+# from Models.SingleCell.Simulation import CellInputs
+from Models.vCornea_4_8.Simulation import BatchTest
+input_modules = [BatchTest]
+
 # Automatic inputs
 from BatchRun import BatchRunLib
-BatchRunLib.register_auto_inputs(input_module_name='Models.SingleCell.Simulation')
+BatchRunLib.register_auto_inputs(input_module_name='Models.vCornea_4_8.Simulation')
 
 # Carbonate configuration
 from BatchRun.BatchRunPrototyping import config_template
 
 config_template = config_template()
-config_template['jn'] = 'single_cell'
-config_template['wh'] = 18
-config_template['wm'] = 0
-config_template['ppn'] = 8
-config_template['vmem'] = 10
+config_template['jn'] = 'vCornea'       # Job Name
+config_template['wh'] = 18              # Hours of Wall time requested
+config_template['wm'] = 0               # Minutes of Wall time requested | Total time is (wh:wm)
+config_template['ppn'] = 8              # How many jobs in a single node
+config_template['vmem'] = 10            # Virtual memory requested in GB
+
+#  Wall time = Maximum time the application can run, for Carbonate is 4 days (96 hours)
+#  the more time requested the least priority rate the job gets
+
 
 # Begin computing work
 import os
