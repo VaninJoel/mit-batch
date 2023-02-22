@@ -1,3 +1,22 @@
+#-------------------------------------------------------------------------------------------------------#
+#                                               BATCH EXEC                                              #
+import os
+import sys
+
+# Import project libraries and classes
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
+
+# Import project libraries and classes
+sys.path.append(os.path.dirname(__file__))
+from BatchRun import BatchRunLib
+
+# Import toolkit
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
+from BatchTestInputs import * # This gives global parameters that can be used in the rest of the simulation
+
+
+
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 # Simulation version 4.7a1
 # 
@@ -80,6 +99,10 @@ class ConstraintInitializerSteppable(SteppableBasePy):
 
     def __init__(self,frequency=1):
         SteppableBasePy.__init__(self,frequency)
+
+        # Batch Parameter Optimization 
+        import BatchTestInputs
+        BatchRunLib.apply_external_multipliers(__name__, BatchTestInputs)
 
         if self.PressureTracker:
             self.track_cell_level_scalar_attribute(field_name='Pressure', attribute_name='Pressure')
