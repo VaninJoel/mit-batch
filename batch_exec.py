@@ -31,7 +31,7 @@ BatchRunLib.register_auto_inputs(input_module_name='Models.SingleCell.Simulation
 from BatchRun.BatchRunPrototyping import config_template
 
 config_template = config_template()
-config_template['jn'] = 'br_principal'
+config_template['jn'] = 'single_cell'
 config_template['wh'] = 18
 config_template['wm'] = 0
 config_template['ppn'] = 8
