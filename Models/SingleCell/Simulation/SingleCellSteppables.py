@@ -1,5 +1,20 @@
 
 from cc3d.core.PySteppables import *
+import os
+import sys
+
+# Import project libraries and classes
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
+
+# Import project libraries and classes
+sys.path.append(os.path.dirname(__file__))
+from BatchRun import BatchRunLib
+
+# Import toolkit
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+
+from CellInputs import *
+
 
 
 class SingleCellSteppable(SteppableBasePy):
@@ -7,6 +22,8 @@ class SingleCellSteppable(SteppableBasePy):
     def __init__(self, frequency=1):
 
         SteppableBasePy.__init__(self,frequency)
+        import CellInputs
+        BatchRunLib.apply_external_multipliers(__name__, CellInputs)
 
     def start(self):
         """
@@ -14,7 +31,7 @@ class SingleCellSteppable(SteppableBasePy):
         """
         x = self.dim.x//2
         y = self.dim.y//2
-        size = 8
+        size = side
         cell = self.new_cell(self.CELL)
         # size of cell will be SIZExSIZEx1
         self.cell_field[x-size//2:x + size//2 - 1, 
