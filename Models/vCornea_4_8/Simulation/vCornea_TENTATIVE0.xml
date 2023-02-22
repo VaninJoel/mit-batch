@@ -1,0 +1,239 @@
+<!-- Stroma version ZERO -->
+<CompuCell3D Revision="0" Version="4.3.1">
+   
+   <Metadata>
+      
+      <!-- Basic properties simulation -->
+      <NumberOfProcessors>1</NumberOfProcessors>
+      <DebugOutputFrequency>10</DebugOutputFrequency>
+      <!-- <NonParallelModule Name="Potts"/> -->
+   </Metadata>
+   
+    <Potts>
+       
+       <!-- Basic properties of CPM (GGH) algorithm -->
+       <Dimensions x="200" y="120" z="1"/>
+       <Steps>100000</Steps>
+       <Temperature>10.0</Temperature>
+       <NeighborOrder>1</NeighborOrder>
+       <!-- <LatticeType>Hexagonal</LatticeType> -->
+    </Potts>
+   
+    <Plugin Name="CellType">
+       
+       <!-- Listing all cell types in the simulation -->
+       <CellType TypeId="0" TypeName="Medium"/>
+       <CellType TypeId="1" TypeName="STEM"/>
+       <CellType Freeze="" TypeId="2" TypeName="LIMB"/>
+       <CellType TypeId="3" TypeName="BASAL"/>
+       <CellType TypeId="4" TypeName="WING"/>
+       <CellType TypeId="5" TypeName="SUPER"/>
+       <CellType Freeze="" TypeId="6" TypeName="MEMB"/>
+       <CellType TypeId="7" TypeName="STROMA"/>
+       <CellType TypeId="8" TypeName="KERATO"/>
+    </Plugin>
+   
+   <Plugin Name="Volume"/>
+
+   <Plugin Name="Surface"/>
+   
+   <Plugin Name="CenterOfMass">
+      
+      <!-- Module tracking center of mass of each cell -->
+   </Plugin>
+   
+   <Plugin Name="NeighborTracker">
+      
+      <!-- Module tracking neighboring cells of each cell -->
+   </Plugin>
+   
+    <Plugin Name="Contact">
+       <!-- Specification of adhesion energies -->
+       <Energy Type1="Medium" Type2="Medium">10.0</Energy>
+       <Energy Type1="Medium" Type2="STEM">20.0</Energy>
+       <Energy Type1="Medium" Type2="LIMB">10.0</Energy>
+       <Energy Type1="Medium" Type2="BASAL">10.0</Energy>
+       <Energy Type1="Medium" Type2="WING">10.0</Energy>
+       <Energy Type1="Medium" Type2="SUPER">10.0</Energy>
+       <Energy Type1="Medium" Type2="MEMB">10.0</Energy>
+       <Energy Type1="Medium" Type2="STROMA">10.0</Energy>
+       <Energy Type1="Medium" Type2="KERATO">10.0</Energy>
+
+       <Energy Type1="STEM" Type2="STEM">10.0</Energy>
+       <Energy Type1="STEM" Type2="LIMB">5.0</Energy>
+       <Energy Type1="STEM" Type2="BASAL">10.0</Energy>
+       <Energy Type1="STEM" Type2="WING">10.0</Energy>
+       <Energy Type1="STEM" Type2="SUPER">10.0</Energy>
+       <Energy Type1="STEM" Type2="MEMB">10.0</Energy>
+       <Energy Type1="STEM" Type2="STROMA">10.0</Energy>
+       <Energy Type1="STEM" Type2="KERATO">10.0</Energy>
+
+       <Energy Type1="LIMB" Type2="LIMB">10.0</Energy>
+       <Energy Type1="LIMB" Type2="BASAL">9.0</Energy>
+       <Energy Type1="LIMB" Type2="WING">10.0</Energy>
+       <Energy Type1="LIMB" Type2="SUPER">10.0</Energy>
+       <Energy Type1="LIMB" Type2="MEMB">10.0</Energy>
+       <Energy Type1="LIMB" Type2="STROMA">10.0</Energy>
+       <Energy Type1="LIMB" Type2="KERATO">10.0</Energy>
+
+       <Energy Type1="BASAL" Type2="BASAL">7.0</Energy>
+       <Energy Type1="BASAL" Type2="WING">10.0</Energy>
+       <Energy Type1="BASAL" Type2="SUPER">10.0</Energy>
+       <Energy Type1="BASAL" Type2="MEMB">10.0</Energy>
+       <Energy Type1="BASAL" Type2="STROMA">10.0</Energy>
+       <Energy Type1="BASAL" Type2="KERATO">10.0</Energy>
+
+       <Energy Type1="WING" Type2="WING">10.0</Energy>
+       <Energy Type1="WING" Type2="SUPER">10.0</Energy>
+       <Energy Type1="WING" Type2="MEMB">15.0</Energy>
+       <Energy Type1="WING" Type2="STROMA">10.0</Energy>
+       <Energy Type1="WING" Type2="KERATO">10.0</Energy>
+
+       <Energy Type1="SUPER" Type2="SUPER">10.0</Energy>
+       <Energy Type1="SUPER" Type2="MEMB">10.0</Energy>
+       <Energy Type1="SUPER" Type2="STROMA">10.0</Energy>
+       <Energy Type1="SUPER" Type2="KERATO">10.0</Energy>
+
+       <Energy Type1="MEMB" Type2="MEMB">10.0</Energy>
+       <Energy Type1="MEMB" Type2="STROMA">10.0</Energy>
+       <Energy Type1="MEMB" Type2="KERATO">10.0</Energy>
+
+       <Energy Type1="STROMA" Type2="STROMA">10.0</Energy>
+       <Energy Type1="STROMA" Type2="KERATO">10.0</Energy>
+       <Energy Type1="KERATO" Type2="KERATO">10.0</Energy>
+       <NeighborOrder>4</NeighborOrder>
+    </Plugin>
+   <Plugin Name="PixelTracker"> 
+       
+        <!-- Module tracking pixels of each cell -->
+   </Plugin>
+   
+   <!-- <Plugin Name="LengthConstraint"> -->
+   
+       <!-- Applies elongation constraint to each cell. Users specify target length of major axis -TargetLength (in 3D additionally, target length of minor axis - MinorTargetLength) and a strength of the constraint -LambdaLength. Parameters are specified for each cell type -->
+       <!-- IMPORTANT: To prevent cell fragmentation for large elongations you need to also use connectivity constraint -->
+       <!-- LengthConstraint plugin with no body: <Plugin Name="LengthConstraint"/> permits constraint specification for individual cells -->
+       <!-- Comment out the constrains for cell types which don't need them -->
+
+       <!-- <LengthEnergyParameters CellType="SUPER" LambdaLength="2.0" TargetLength="15"/> -->
+       <!-- <LengthEnergyParameters CellType="STEM" LambdaLength="2.0" TargetLength="25"/>
+       <LengthEnergyParameters CellType="TAC" LambdaLength="2.0" TargetLength="25"/>
+       <LengthEnergyParameters CellType="BASAL" LambdaLength="2.0" TargetLength="25"/>
+       <LengthEnergyParameters CellType="WING" LambdaLength="2.0" TargetLength="25"/>
+       <LengthEnergyParameters CellType="SUPER" LambdaLength="2.0" TargetLength="35"/>
+
+       <LengthEnergyParameters CellType="MEMB" LambdaLength="2.0" TargetLength="25"/>
+       <LengthEnergyParameters CellType="TEAR" LambdaLength="2.0" TargetLength="25"/>
+       <LengthEnergyParameters CellType="STROMA" LambdaLength="2.0" TargetLength="0"/>
+       <LengthEnergyParameters CellType="KERATO" LambdaLength="2.0" TargetLength="25"/> -->
+   <!-- </Plugin> -->
+
+   <Plugin Name="Chemotaxis">
+      <ChemicalField Name="BASALMVBIAS" >
+      <!-- You may repeat ChemicalField element for each chemical field declared in the PDE solvers -->
+       </ChemicalField>
+     <!-- Specification of chemotaxis properties of select cell types. -->
+   </Plugin>
+
+   <Steppable Type="DiffusionSolverFE">
+      
+      <!-- Specification of PDE solvers -->
+
+      <DiffusionField Name="TEAR">
+         <DiffusionData>
+            <FieldName>TEAR</FieldName>
+            <GlobalDiffusionConstant id = "Tear_GlbDiff">0.0</GlobalDiffusionConstant>
+            <GlobalDecayConstant>0.0001</GlobalDecayConstant>
+            <!-- Additional options are: 0.000001 -->
+            <!-- <InitialConcentrationExpression>y</InitialConcentrationExpression> -->
+            <!-- <ConcentrationFileName>INITIAL CONCENTRATION FIELD - typically a file with path Simulation/NAME_OF_THE_FILE.txt</ConcentrationFileName> -->
+            <DiffusionCoefficient CellType="SUPER">0.0</DiffusionCoefficient>
+            <DiffusionCoefficient CellType="MEMB">0.0</DiffusionCoefficient>
+            <!-- <DecayCoefficient CellType="cell">0.01</DecayCoefficient> -->
+         </DiffusionData>
+         <SecretionData>
+            <!-- When secretion is defined inside DissufionSolverFE all secretion constants are scaled automaticaly to account for the extra calls to the diffusion step when handling large diffusion constants -->
+            <!-- Uniform secretion Definition -->
+            <!-- <Secretion Type="cell">0.1</Secretion> -->
+            <!-- <SecretionOnContact SecreteOnContactWith="cell" Type="cell">0.2</SecretionOnContact> -->
+            <!-- <ConstantConcentration Type="cell">0.1</ConstantConcentration> -->
+         </SecretionData>
+         <BoundaryConditions>
+            <Plane Axis="X">
+               <!-- <ConstantValue PlanePosition="Min" Value="10.0"/> -->
+               <!-- <ConstantValue PlanePosition="Max" Value="5.0"/> -->
+               <!-- Other options are (examples): -->
+               <Periodic/>
+               <!-- <ConstantDerivative PlanePosition="Min" Value="10.0"/> -->
+            </Plane>
+            <Plane Axis="Y">
+               <!-- <ConstantValue PlanePosition="Min" Value="0.0"/>
+               <ConstantValue PlanePosition="Max" Value="1.0"/> -->
+               <ConstantValue PlanePosition="Min" Value="0.0"/>
+               <ConstantValue PlanePosition="Max" Value="1.0"/>
+               <!-- <ConstantDerivative PlanePosition="Min" Value="0.0"/>
+               <ConstantDerivative PlanePosition="Max" Value="1.0"/> -->
+               <!-- Other options are (examples): -->
+               <!-- <Periodic/> -->
+               <!-- <ConstantValue PlanePosition="Max" Value="10.0"/> -->
+            </Plane>
+         </BoundaryConditions>
+      </DiffusionField> 
+
+      <!-- BASAL CELL MOVEMENT BIAS -->
+      <DiffusionField Name="BASALMVBIAS">
+         <DiffusionData>
+            <FieldName>BASALMVBIAS</FieldName>
+            <!-- <GlobalDiffusionConstant id = "BASALMVBIAS_GlbDiff">1.0</GlobalDiffusionConstant> -->
+            <!-- <GlobalDecayConstant>0.0</GlobalDecayConstant> -->
+            <!-- <InitialConcentrationExpression>(x/2) + (y/4) </InitialConcentrationExpression> -->
+            <!-- <DiffusionCoefficient CellType="MEMB">1.0</DiffusionCoefficient>              -->
+         </DiffusionData>
+         <SecretionData>
+            <!-- When secretion is defined inside DissufionSolverFE all secretion constants are scaled automaticaly to account for the extra calls to the diffusion step when handling large diffusion constants -->
+            <!-- Uniform secretion Definition -->
+            <!-- <Secretion Type="MEMB">0.1</Secretion> -->
+            <SecretionOnContact id = "Basal_bias_xml" SecreteOnContactWith="Medium" Type="Medium">0.0</SecretionOnContact>
+            <!-- <ConstantConcentration Type="cell">0.1</ConstantConcentration> -->
+         </SecretionData>
+         <BoundaryConditions>
+            <Plane Axis="X">
+               <!-- <ConstantValue PlanePosition="Min" Value="0.0"/>
+               <ConstantValue PlanePosition="Max" Value="1.0"/> -->
+               <Periodic/>
+               <!-- <ConstantDerivative PlanePosition="Min" Value="10.0"/> -->
+            </Plane>
+            <Plane Axis="Y">
+               <!-- <ConstantValue PlanePosition="Min" Value="0.0"/> -->
+               <!-- <ConstantValue PlanePosition="Max" Value="1.0"/> -->
+               <!-- <ConstantValue PlanePosition="Min" Value="0.0"/>
+               <ConstantValue PlanePosition="Max" Value="1.0"/> -->
+               <!-- <ConstantDerivative PlanePosition="Min" Value="0.0"/>
+               <ConstantDerivative PlanePosition="Max" Value="1.0"/> -->
+               <!-- Other options are (examples): -->
+               <Periodic/>
+               <!-- <ConstantValue PlanePosition="Max" Value="10.0"/> -->
+            </Plane>
+         </BoundaryConditions>
+      </DiffusionField>       
+
+   </Steppable>
+   <Plugin Name="Secretion">
+   
+   <!-- Specification of secretion properties of select cell types. -->
+   <!-- You may repeat Field element for each chemical field declared in the PDE solvers -->
+   <!-- Specification of secretion properties of individual cells can be done in Python -->
+   <!-- <Field Name="FIELD_FROM_PDE_SOLVER"> -->
+      <!-- <Secretion Type="CELL_TYPE_NAME">0.1</Secretion> -->
+      <!-- <SecretionOnContact SecreteOnContactWith="COMMA_SEPARATED_TYPE_NAMES" Type="CELL_TYPE_NAME">1.1</SecretionOnContact> -->
+      <!-- <ConstantConcentration Type="CELL_TYPE_NAME">0.5</ConstantConcentration> -->
+   <!-- </Field> -->
+   </Plugin>
+   
+    <Steppable Type="PIFInitializer">
+   
+        <!-- Initial layout of cells using PIFF file. Piff files can be generated using PIFGEnerator -->
+        <PIFName>Homeostasis with Stroma.piff</PIFName>
+    </Steppable>
+
+</CompuCell3D>
