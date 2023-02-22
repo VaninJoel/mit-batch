@@ -5,7 +5,9 @@ var_dict = {"alpha": [.1, .9],  # 2
              "beta": [.1, .25, .5],  # 3
              "number": [2, 500, 1000]}  # 3
 
-mult_dict = var_dict
+single_cell = {"side": [4, 6, 8, 10, 12]}
+
+mult_dict = single_cell
 # number of replicates
 num_rep = 4
 # Model output frequency
@@ -13,16 +15,17 @@ model_out_freq = 1
 # Output frequency of simulation data per simulation replica
 out_freq = 250
 # Root output directory
-sweep_output_folder = r'/output/'
+sweep_output_folder = r'/N/u/jferrari/Carbonate/in_class_ex'
 if not os.path.isdir(sweep_output_folder):
     Path(sweep_output_folder).mkdir(parents=True)
 
 # Input modules
-from Models.Motion.Simulation import UniCellModelInputs
-input_modules = [UniCellModelInputs]
+# from Models.Motion.Simulation import UniCellModelInputs
+from Models.SingleCell.Simulation import CellInputs
+input_modules = [CellInputs]
 # Automatic inputs
 from BatchRun import BatchRunLib
-BatchRunLib.register_auto_inputs(input_module_name='Models.Motion.UniCellModelInputs')
+BatchRunLib.register_auto_inputs(input_module_name='Models.SingleCell.Simulation')
 
 # Carbonate configuration
 from BatchRun.BatchRunPrototyping import config_template
