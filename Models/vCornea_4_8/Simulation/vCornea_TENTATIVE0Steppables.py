@@ -18,7 +18,7 @@ from BatchTestInputs import * # This gives global parameters that can be used in
 
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-# Simulation version 4.7a1
+# Simulation version 4.8
 # 
 # ----- ADDITIONS -----
 #       Good progress in determining Basal cell homeostasis with STEM cell at limbus
@@ -77,8 +77,10 @@ class ConstraintInitializerSteppable(SteppableBasePy):
     #---SUPERFICIAL---
     DeathTimeScaler         = 1
     DeathVolumeScaler       = 0.1
+
     InitSUPER_LambdaSurface = 2
     InitSUPER_TargetSurface = 25
+
     InitSUPER_TargetVolume  = 25
 
 #   PLOTS
@@ -93,9 +95,15 @@ class ConstraintInitializerSteppable(SteppableBasePy):
     DivisionTracker   = True
 
 
-# Fields
+# FIELDS
     MovementBias = object()
     MovementBiasValue = 1
+    MovementBiasUptake = 1
+
+    TearField = object()
+    TearFieldValue = 1
+    TearFieldUptake = 0.8
+
 
     def __init__(self,frequency=1):
         SteppableBasePy.__init__(self,frequency)
@@ -235,8 +243,9 @@ class ConstraintInitializerSteppable(SteppableBasePy):
                 # self.cell_field[i, j, 0] = self.new_cell(self.LIMB)   
         # print(cellsinthelimbus)  
          
-        # BASAL MOVEMENT BIAS
+        # FIELDS
         self.MovementBias =self.get_field_secretor("BASALMVBIAS")
+        self.TearField = self.get_field_secretor("TEAR")
 
         # STROMA
         for cell in self.cell_list_by_type(self.STROMA):
@@ -312,32 +321,25 @@ class ConstraintInitializerSteppable(SteppableBasePy):
         
     def step(self, mcs):
         
-        TEAR_FIELD = self.get_field_secretor("TEAR")
-        x = 0   
-
         # for cell in self.cell_list_by_type(self.WING):
         #     self.delete_cell(cell)
         # for cell in self.cell_list_by_type(self.SUPER):
         #     self.delete_cell(cell)
 
-
         # ---- CELL PARAMETERS UPDATE ----
-        
-        # for cell in self.cell_list_by_type(self.TYPENAME_1, self.TYPENAME_2, ...):
-          
-        
         
         for cell in self.cell_list_by_type(self.BASAL, self.STEM, self.WING, self.SUPER):           
             cell.dict['Pressure'] = abs(cell.pressure)
             cell.dict['Volume'] = cell.volume
-            cell.dict['Tear'] = TEAR_FIELD.amountSeenByCell(cell)
+            cell.dict['Tear'] = self.TearField.amountSeenByCell(cell)
             # UPTAKE OF FIELD
-            TEAR_FIELD.uptakeInsideCell(cell, 0.8, 0.01)
-            cell.dict['TEAR_Uptake'] = TEAR_FIELD.uptakeInsideCellTotalCount(cell, 0.8, 0.01).tot_amount            
+            self.TearField.uptakeInsideCell(cell, 0.8, 0.01)
+            cell.dict['TEAR_Uptake'] = self.TearField.uptakeInsideCellTotalCount(cell, 0.8, 0.01).tot_amount            
        
-        # ---- FIELD PARAMETERS UPDATE ----
-        for cell in self.cell_list_by_type(self.MEMB): 
-            self.MovementBias.secreteOutsideCellAtBoundary(cell, self.MovementBiasValue)
+        for cell in self.cell_list_by_type(self.MEMB):
+
+            self.MovementBias.secreteOutsideCellAtBoundaryOnContactWith(cell, self.MovementBiasValue, [self.MEDIUM, self.WING, self.SUPER])
+
             
  
 class GrowthSteppable(SteppableBasePy):
@@ -388,7 +390,7 @@ class MitosisSteppable(MitosisSteppableBase):
                 cells_to_divide.append(cell)
 
 
-        for cell in cells_to_divide:
+        for cell in cells_to_divide:            
             # STEM 
             if cell.type == self.STEM:
                 self.set_parent_child_position_flag(1)
@@ -440,8 +442,7 @@ class DeathSteppable(SteppableBasePy):
     
     def step(self, mcs):
         global DEATHCOUNT
-        # print('Cell count ' ,len(self.cell_list), "at ", mcs)     
-     
+
         # --- Basal cell death rate ---
         if self.injury:
 
@@ -483,9 +484,10 @@ class DeathSteppable(SteppableBasePy):
 
         # --- Constant Cell Death Rate ---          
         deathsum = 0
-        # CONSTANT DEATH RATE (Cell type dependent)            
-        for cell in self.cell_list_by_type(self.SUPER):          
-            # print('volume',cell.volume)
+
+        # CONSTANT DEATH RATE (Cell type dependent)
+        deathsum = 0            
+        for cell in self.cell_list_by_type(self.SUPER):
             NEIGHBOR_DICT = self.get_cell_neighbor_data_list(cell).neighbor_count_by_type()  # Checking Neighbors                        
             
             if (self.MEDIUM in NEIGHBOR_DICT.keys()) : # Only cells at the edge has basal death for now            
@@ -501,10 +503,9 @@ class DeathSteppable(SteppableBasePy):
                     deathsum += 1
                     self.delete_cell(cell)
         DEATHCOUNT = deathsum
-        # PlotSteppable.hack(deathsum)  
+          
 
-    def getDeath(self):
-        return self.death
+    
 
 class DifferentiationSteppable(SteppableBasePy):
     def __init__(self, frequency=1):      
@@ -597,9 +598,7 @@ class DifferentiationSteppable(SteppableBasePy):
 
         # if (cell.type == self.STEM):
         #     ConstraintInitializerSteppable.InitSTEM_LambdaSurface
-
-
-        
+  
 class PlotSteppable(SteppableBasePy):
 
     def __init__(self, frequency=1):      
