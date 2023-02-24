@@ -12,18 +12,18 @@
                 "ProjectionPosition": 0
             },
             "CameraClippingRange": {
-                "Min": "422.04969903347165",
-                "Max": "487.58367708422725"
+                "Min": "111.13887662598748",
+                "Max": "128.39602126575994"
             },
             "CameraFocalPoint": {
-                "x": "100.0",
-                "y": "60.0",
+                "x": "97.37365431920644",
+                "y": "38.34406362455621",
                 "z": "0.0"
             },
             "CameraPosition": {
-                "x": "100.0",
-                "y": "60.0",
-                "z": "450.58136216642043"
+                "x": "97.37365431920644",
+                "y": "38.34406362455621",
+                "z": "118.65215526622538"
             },
             "CameraViewUp": {
                 "x": "0.0",
@@ -100,49 +100,49 @@
                     "1": [
                         255,
                         0,
-                        0,
+                        102,
                         255
                     ],
                     "2": [
                         255,
-                        170,
+                        153,
                         255,
                         255
                     ],
                     "3": [
-                        225,
-                        181,
-                        170,
+                        248,
+                        203,
+                        173,
                         255
                     ],
                     "4": [
-                        8,
-                        82,
-                        255,
+                        68,
+                        114,
+                        196,
                         255
                     ],
                     "5": [
-                        117,
+                        0,
+                        227,
                         222,
-                        219,
                         255
                     ],
                     "6": [
-                        216,
-                        13,
-                        230,
+                        225,
+                        89,
+                        202,
                         255
                     ],
                     "7": [
-                        144,
-                        238,
-                        144,
+                        153,
+                        102,
+                        255,
                         255
                     ],
                     "8": [
-                        128,
+                        255,
+                        102,
                         0,
-                        128,
                         255
                     ],
                     "9": [
@@ -158,6 +158,342 @@
                         255
                     ]
                 }
+            }
+        },
+        "BASALMVBIAS_ConField_2D_XY_0": {
+            "Plot": {
+                "PlotType": "ConField",
+                "PlotName": "BASALMVBIAS"
+            },
+            "Dimension": "2D",
+            "Projection": {
+                "ProjectionPlane": "XY",
+                "ProjectionPosition": 0
+            },
+            "CameraClippingRange": {
+                "Min": "75.90934814970788",
+                "Max": "87.69621013985366"
+            },
+            "CameraFocalPoint": {
+                "x": "95.49591832407027",
+                "y": "26.65817720619961",
+                "z": "0.0"
+            },
+            "CameraPosition": {
+                "x": "95.49591832407027",
+                "y": "26.65817720619961",
+                "z": "81.04101855489733"
+            },
+            "CameraViewUp": {
+                "x": "0.0",
+                "y": "1.0",
+                "z": "0.0"
+            },
+            "Size": {
+                "Width": 1500,
+                "Height": 1000
+            },
+            "CellBorders": true,
+            "Cells": true,
+            "ClusterBorders": false,
+            "CellGlyphs": false,
+            "FPPLinks": false,
+            "BoundingBox": true,
+            "LatticeAxes": true,
+            "LatticeAxesLabels": true,
+            "TypesInvisible": [
+                0
+            ],
+            "metadata": {
+                "BorderColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "ClusterBorderColor": [
+                    0,
+                    0,
+                    255,
+                    255
+                ],
+                "BoundingBoxColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "AxesColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "ContourColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "WindowColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "FPPLinksColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "ShowHorizontalAxesLabels": true,
+                "ShowVerticalAxesLabels": true,
+                "TypeColorMap": {
+                    "0": [
+                        0,
+                        0,
+                        0,
+                        255
+                    ],
+                    "1": [
+                        255,
+                        0,
+                        102,
+                        255
+                    ],
+                    "2": [
+                        255,
+                        153,
+                        255,
+                        255
+                    ],
+                    "3": [
+                        248,
+                        203,
+                        173,
+                        255
+                    ],
+                    "4": [
+                        68,
+                        114,
+                        196,
+                        255
+                    ],
+                    "5": [
+                        0,
+                        227,
+                        222,
+                        255
+                    ],
+                    "6": [
+                        225,
+                        89,
+                        202,
+                        255
+                    ],
+                    "7": [
+                        153,
+                        102,
+                        255,
+                        255
+                    ],
+                    "8": [
+                        255,
+                        102,
+                        0,
+                        255
+                    ],
+                    "9": [
+                        255,
+                        165,
+                        0,
+                        255
+                    ],
+                    "10": [
+                        64,
+                        224,
+                        208,
+                        255
+                    ]
+                },
+                "MinRangeFixed": true,
+                "MaxRangeFixed": false,
+                "MinRange": 0.0,
+                "MaxRange": 100.0,
+                "ContoursOn": true,
+                "NumberOfContourLines": 3,
+                "ScalarIsoValues": [],
+                "LegendEnable": true,
+                "DisplayMinMaxInfo": true
+            }
+        },
+        "DivisionCount_ScalarFieldCellLevel_2D_XY_0": {
+            "Plot": {
+                "PlotType": "ScalarFieldCellLevel",
+                "PlotName": "DivisionCount"
+            },
+            "Dimension": "2D",
+            "Projection": {
+                "ProjectionPlane": "XY",
+                "ProjectionPosition": 0
+            },
+            "CameraClippingRange": {
+                "Min": "162.7184292681083",
+                "Max": "187.98461473519933"
+            },
+            "CameraFocalPoint": {
+                "x": "97.97426620292667",
+                "y": "20.950810178613093",
+                "z": "0.0"
+            },
+            "CameraPosition": {
+                "x": "97.97426620292667",
+                "y": "20.950810178613093",
+                "z": "173.71862052528067"
+            },
+            "CameraViewUp": {
+                "x": "0.0",
+                "y": "1.0",
+                "z": "0.0"
+            },
+            "Size": {
+                "Width": 1500,
+                "Height": 1000
+            },
+            "CellBorders": true,
+            "Cells": true,
+            "ClusterBorders": false,
+            "CellGlyphs": false,
+            "FPPLinks": false,
+            "BoundingBox": true,
+            "LatticeAxes": true,
+            "LatticeAxesLabels": true,
+            "TypesInvisible": [
+                0
+            ],
+            "metadata": {
+                "BorderColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "ClusterBorderColor": [
+                    0,
+                    0,
+                    255,
+                    255
+                ],
+                "BoundingBoxColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "AxesColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "ContourColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "WindowColor": [
+                    0,
+                    0,
+                    0,
+                    255
+                ],
+                "FPPLinksColor": [
+                    255,
+                    255,
+                    255,
+                    255
+                ],
+                "ShowHorizontalAxesLabels": true,
+                "ShowVerticalAxesLabels": true,
+                "TypeColorMap": {
+                    "0": [
+                        0,
+                        0,
+                        0,
+                        255
+                    ],
+                    "1": [
+                        255,
+                        0,
+                        102,
+                        255
+                    ],
+                    "2": [
+                        255,
+                        153,
+                        255,
+                        255
+                    ],
+                    "3": [
+                        248,
+                        203,
+                        173,
+                        255
+                    ],
+                    "4": [
+                        68,
+                        114,
+                        196,
+                        255
+                    ],
+                    "5": [
+                        0,
+                        227,
+                        222,
+                        255
+                    ],
+                    "6": [
+                        225,
+                        89,
+                        202,
+                        255
+                    ],
+                    "7": [
+                        153,
+                        102,
+                        255,
+                        255
+                    ],
+                    "8": [
+                        255,
+                        102,
+                        0,
+                        255
+                    ],
+                    "9": [
+                        255,
+                        165,
+                        0,
+                        255
+                    ],
+                    "10": [
+                        64,
+                        224,
+                        208,
+                        255
+                    ]
+                },
+                "MinRangeFixed": true,
+                "MaxRangeFixed": false,
+                "MinRange": 0.0,
+                "MaxRange": 100.0,
+                "ContoursOn": false,
+                "NumberOfContourLines": 3,
+                "ScalarIsoValues": [],
+                "LegendEnable": true,
+                "DisplayMinMaxInfo": true
             }
         }
     }

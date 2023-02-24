@@ -15,6 +15,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from BatchTestInputs import * # This gives global parameters that can be used in the rest of the simulation
 
+# GLOBAL BATCH PARAMETERS
 
 
 #||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -60,25 +61,26 @@ class ConstraintInitializerSteppable(SteppableBasePy):
     #---STEM---
     InitSTEM_LambdaSurface  = 10
     InitSTEM_TargetSurface  = 25
-    STEM_HalfMaxValue       = 65
-    InitSTEM_LambdaChemo    = 500
+    STEM_HalfMaxValue       = 120
+    InitSTEM_LambdaChemo    = 100 #10000
 
     #---BASAL---
     InitBASAL_LambdaSurface = 5
     InitBASAL_TargetSurface = 25
-    InitBASAL_LambdaChemo   = 125
-    InitBASAL_Division      = 27
-    BASAL_HalfMaxValue      = 15
+    InitBASAL_LambdaChemo   = 100 #125
+    InitBASAL_Division      = 100
+    BASAL_HalfMaxValue      = 15  # 15 is very close to the correct value
     
     #---WING---
     InitWING_LambdaSurface  = 2
     InitWING_TargetSurface  = 24
 
     #---SUPERFICIAL---
-    DeathTimeScaler         = 1
-    DeathVolumeScaler       = 0.1
+    DeathTimeScalar         = 1
+    DeathVolumeScalar       = 1
+    SloughScalar            = 25
 
-    InitSUPER_LambdaSurface = 2
+    InitSUPER_LambdaSurface = 5
     InitSUPER_TargetSurface = 25
 
     InitSUPER_TargetVolume  = 25
@@ -102,7 +104,7 @@ class ConstraintInitializerSteppable(SteppableBasePy):
 
     TearField = object()
     TearFieldValue = 1
-    TearFieldUptake = 0.8
+    TearFieldUptake = 0.01
 
 
     def __init__(self,frequency=1):
@@ -124,124 +126,146 @@ class ConstraintInitializerSteppable(SteppableBasePy):
             self.track_cell_level_scalar_attribute(field_name='DivisionCount', attribute_name='DivisionCount')
 
 
-    def start(self):        
+    def start(self):
+
+            # Test no cell  
+        for cell in self.cell_list_by_type(self.WING):
+            self.delete_cell(cell)
+        for cell in self.cell_list_by_type(self.SUPER):
+            self.delete_cell(cell)
+        for cell in self.cell_list_by_type(self.BASAL):
+            self.delete_cell(cell)
+        # if True == False: # just for colapssing code purpose needed while building
+        #     pass  
+            # # Creating space for KERATO
+            # x_loc = [5, 20, 36, 52, 66, 84]
+            # for x in x_loc:
+            #     for i in range(1,10):
+            # cell = self.cell_field[3, 15, 0]
+            # self.delete_cell(cell)         
+            #         cell = self.cell_field[x+i, 6, 0]
+            #         self.delete_cell(cell)                
+            #         cell = self.cell_field[x+i, 7, 0]
+            #         self.delete_cell(cell)
+            #         cell = self.cell_field[x+i, 8, 0]
+            #         self.delete_cell(cell)
           
-        # # Creating space for KERATO
-        # x_loc = [5, 20, 36, 52, 66, 84]
-        # for x in x_loc:
-        #     for i in range(1,10):
-        # cell = self.cell_field[3, 15, 0]
-        # self.delete_cell(cell)         
-        #         cell = self.cell_field[x+i, 6, 0]
-        #         self.delete_cell(cell)                
-        #         cell = self.cell_field[x+i, 7, 0]
-        #         self.delete_cell(cell)
-        #         cell = self.cell_field[x+i, 8, 0]
-        #         self.delete_cell(cell)
-    #   Test no cell  
-        # for cell in self.cell_list_by_type(self.WING):
-        #     self.delete_cell(cell)
-        # for cell in self.cell_list_by_type(self.SUPER):
-        #     self.delete_cell(cell)
-        # for cell in self.cell_list_by_type(self.BASAL):
-        #     self.delete_cell(cell)
-                
-        #     self.cell_field[x+1:x+7, 6:8, 0] = self.new_cell(self.KERATO)
+                    
+            #     self.cell_field[x+1:x+7, 6:8, 0] = self.new_cell(self.KERATO)
 
-        # cell = self.cell_field[3, 15, 0]
-        # self.delete_cell(cell) 
-        # self.cell_field[0:3, 12:20, 0] = self.new_cell(self.STEM)
-        # for i in range(0, 20):
-        #     for j in range(7, 12):
-        #         self.cell_field[i, j, 0] = self.new_cell(self.LIMB)
+            # cell = self.cell_field[3, 15, 0]
+            # self.delete_cell(cell) 
+            # self.cell_field[0:3, 12:20, 0] = self.new_cell(self.STEM)
+            # for i in range(0, 20):
+            #     for j in range(7, 12):
+            #         self.cell_field[i, j, 0] = self.new_cell(self.LIMB)
 
-        # for i in range(20, 23):
-                           
-        #     self.delete_cell(self.cell_field[i, 12, 0])
-        #     # self.delete_cell(self.cell_field[i, j, 0])
-        #     self.cell_field[i, 12-5, 0] = self.new_cell(self.MEMB)
+            # for i in range(20, 23):
+                            
+            #     self.delete_cell(self.cell_field[i, 12, 0])
+            #     # self.delete_cell(self.cell_field[i, j, 0])
+            #     self.cell_field[i, 12-5, 0] = self.new_cell(self.MEMB)
 
 
-        # self.delete_cell(self.cell_field[3, 11, 0])
-        # self.delete_cell(self.cell_field[3, 10, 0])
-        # self.delete_cell(self.cell_field[3, 9, 0])
+            # self.delete_cell(self.cell_field[3, 11, 0])
+            # self.delete_cell(self.cell_field[3, 10, 0])
+            # self.delete_cell(self.cell_field[3, 9, 0])
 
-        # self.delete_cell(self.cell_field[2, 11, 0])
-        # self.delete_cell(self.cell_field[2, 10, 0])
-        # self.delete_cell(self.cell_field[2, 9, 0])
-        # self.delete_cell(self.cell_field[1, 11, 0])
-        # self.delete_cell(self.cell_field[1, 10, 0])
-        # self.delete_cell(self.cell_field[1, 9, 0])
-        # self.delete_cell(self.cell_field[0, 11, 0])
-        # self.delete_cell(self.cell_field[0, 10, 0])
-        # self.delete_cell(self.cell_field[0, 9, 0])
+            # self.delete_cell(self.cell_field[2, 11, 0])
+            # self.delete_cell(self.cell_field[2, 10, 0])
+            # self.delete_cell(self.cell_field[2, 9, 0])
+            # self.delete_cell(self.cell_field[1, 11, 0])
+            # self.delete_cell(self.cell_field[1, 10, 0])
+            # self.delete_cell(self.cell_field[1, 9, 0])
+            # self.delete_cell(self.cell_field[0, 11, 0])
+            # self.delete_cell(self.cell_field[0, 10, 0])
+            # self.delete_cell(self.cell_field[0, 9, 0])
 
-        # self.cell_field[1, 9, 0] = self.new_cell(self.STEM)
+            # self.cell_field[1, 9, 0] = self.new_cell(self.STEM)
 
-        # self.cell_field[4, 12, 0] = self.new_cell(self.LIMB)
-        # self.cell_field[4, 13, 0] = self.new_cell(self.LIMB)
-        # self.cell_field[5, 12, 0] = self.new_cell(self.LIMB)
-        # self.cell_field[5, 13, 0] = self.new_cell(self.LIMB)
+        # self.delete_cell(self.cell_field[4, 12, 0])
+        # self.delete_cell(self.cell_field[4, 13, 0])
+        # self.delete_cell(self.cell_field[5, 12, 0])
+        # self.delete_cell(self.cell_field[5, 13, 0])
+        # self.delete_cell(self.cell_field[6, 12, 0])
+        # self.delete_cell(self.cell_field[6, 13, 0])
+        # self.delete_cell(self.cell_field[6, 14, 0])
+        # self.delete_cell(self.cell_field[7, 12, 0])
+        #     # self.delete_cell(self.cell_field[0, 9, 0])
+
+        # self.cell_field[3, 11, 0] = self.new_cell(self.LIMB)
+        # self.cell_field[2, 11, 0] = self.new_cell(self.LIMB)
+        # self.cell_field[1, 11, 0] = self.new_cell(self.LIMB)
+        # self.cell_field[0, 11, 0] = self.new_cell(self.LIMB)
+        # self.cell_field[3, 10, 0] = self.new_cell(self.LIMB)
+        # self.cell_field[2, 10, 0] = self.new_cell(self.LIMB)
+        # self.cell_field[1, 10, 0] = self.new_cell(self.LIMB)
+        # self.cell_field[0, 10, 0] = self.new_cell(self.LIMB)
+        # self.cell_field[3, 9, 0] = self.new_cell(self.LIMB)
+        # self.cell_field[2, 9, 0] = self.new_cell(self.LIMB)
+        # self.cell_field[1, 9, 0] = self.new_cell(self.LIMB)
+        # self.cell_field[0, 9, 0] = self.new_cell(self.LIMB)
+
         # self.cell_field[6, 12, 0] = self.new_cell(self.LIMB)
         # self.cell_field[6, 13, 0] = self.new_cell(self.LIMB)
-        # self.cell_field[6, 14, 0] = self.new_cell(self.LIMB)
-        # self.cell_field[7, 12, 0] = self.new_cell(self.LIMB)
+            # self.cell_field[6, 14, 0] = self.new_cell(self.LIMB)
+            # self.cell_field[7, 12, 0] = self.new_cell(self.LIMB)
 
-        # self.cell_field[0:200, 0:7, 0] = self.new_cell(self.STROMA)
+            # self.cell_field[0:200, 0:7, 0] = self.new_cell(self.STROMA)
 
-        # for i in range(20, 33):
-        #     j = 12                
-        #     self.delete_cell(self.cell_field[i, j, 0])
-        #     # self.delete_cell(self.cell_field[i, j, 0])
-        #     self.cell_field[i, j-5, 0] = self.new_cell(self.MEMB)
-
-        # for i in range(20, 33):
-        #     for j in range(12, 15):                
-        #         self.delete_cell(self.cell_field[i, j, 0])
-        #         # self.delete_cell(self.cell_field[i, j, 0])
-        #         self.cell_field[i, j-5, 0] = self.new_cell(self.MEMB)
-
-        # for i in range(27, 30):
-        #     for j in range(14, 15):
-
-        #         self.cell_field[i, j, 0] = self.new_cell(self.MEMB)
-        #         self.delete_cell(self.cell_field[i, 9, 0])
-
-                # self.cell_field[i+5, j+1, 0] = self.new_cell(self.MEMB)
-                # self.delete_cell(self.cell_field[i+5, 10, 0])
-
-                # self.cell_field[i+5, j+1, 0] = self.new_cell(self.MEMB)
-                # self.delete_cell(self.cell_field[i+5, 10, 0])
-
-
-        # for i in range(27, 30):
-        #     for j in range(14, 15):
-        #         self.cell_field[i, j, 0] = self.new_cell(self.MEMB)
-              
-
-
-
-        # self.cell_field[4:13, 12:18, 0] = self.new_cell(self.STEM)
-        # self.delete_cell(self.cell_field[12, 15, 0])
-        # self.cell_field[12:20, 12:18, 0] = self.new_cell(self.STEM)
-        # self.delete_cell(self.cell_field[9, 19, 0])
-        # self.delete_cell(self.cell_field[5, 22, 0])
-        # self.delete_cell(self.cell_field[9, 22, 0])
-        # self.delete_cell(self.cell_field[0, 7, 0])
-        # self.cell_field[0, 7, 0] = self.new_cell(self.LIMB)
-        # self.delete_cell(self.cell_field[1, 7, 0])
-        # self.cell_field[1, 7, 0] = self.new_cell(self.LIMB)
-        # self.delete_cell(self.cell_field[2, 7, 0])
-        # self.cell_field[2, 7, 0] = self.new_cell(self.LIMB)
-        # self.delete_cell(self.cell_field[3, 7, 0])
-        # self.cell_field[3, 7, 0] = self.new_cell(self.LIMB)
-
-        # for i in range(0, 21):
-        #     self.delete_cell(self.cell_field[1+i, 7, 0])
-            # for j in range(7,13):
+            # for i in range(20, 33):
+            #     j = 12                
             #     self.delete_cell(self.cell_field[i, j, 0])
-                # self.cell_field[i, j, 0] = self.new_cell(self.LIMB)   
-        # print(cellsinthelimbus)  
+            #     # self.delete_cell(self.cell_field[i, j, 0])
+            #     self.cell_field[i, j-5, 0] = self.new_cell(self.MEMB)
+
+            # for i in range(20, 33):
+            #     for j in range(12, 15):                
+            #         self.delete_cell(self.cell_field[i, j, 0])
+            #         # self.delete_cell(self.cell_field[i, j, 0])
+            #         self.cell_field[i, j-5, 0] = self.new_cell(self.MEMB)
+
+            # for i in range(27, 30):
+            #     for j in range(14, 15):
+
+            #         self.cell_field[i, j, 0] = self.new_cell(self.MEMB)
+            #         self.delete_cell(self.cell_field[i, 9, 0])
+
+                    # self.cell_field[i+5, j+1, 0] = self.new_cell(self.MEMB)
+                    # self.delete_cell(self.cell_field[i+5, 10, 0])
+
+                    # self.cell_field[i+5, j+1, 0] = self.new_cell(self.MEMB)
+                    # self.delete_cell(self.cell_field[i+5, 10, 0])
+
+
+            # for i in range(27, 30):
+            #     for j in range(14, 15):
+            #         self.cell_field[i, j, 0] = self.new_cell(self.MEMB)
+                
+
+
+
+            # self.cell_field[4:13, 12:18, 0] = self.new_cell(self.STEM)
+            # self.delete_cell(self.cell_field[12, 15, 0])
+            # self.cell_field[12:20, 12:18, 0] = self.new_cell(self.STEM)
+            # self.delete_cell(self.cell_field[9, 19, 0])
+            # self.delete_cell(self.cell_field[5, 22, 0])
+            # self.delete_cell(self.cell_field[9, 22, 0])
+            # self.delete_cell(self.cell_field[0, 7, 0])
+            # self.cell_field[0, 7, 0] = self.new_cell(self.LIMB)
+            # self.delete_cell(self.cell_field[1, 7, 0])
+            # self.cell_field[1, 7, 0] = self.new_cell(self.LIMB)
+            # self.delete_cell(self.cell_field[2, 7, 0])
+            # self.cell_field[2, 7, 0] = self.new_cell(self.LIMB)
+            # self.delete_cell(self.cell_field[3, 7, 0])
+            # self.cell_field[3, 7, 0] = self.new_cell(self.LIMB)
+
+            # for i in range(0, 21):
+            #     self.delete_cell(self.cell_field[1+i, 7, 0])
+                # for j in range(7,13):
+                #     self.delete_cell(self.cell_field[i, j, 0])
+                    # self.cell_field[i, j, 0] = self.new_cell(self.LIMB)   
+            # print(cellsinthelimbus)  
          
         # FIELDS
         self.MovementBias =self.get_field_secretor("BASALMVBIAS")
@@ -296,7 +320,9 @@ class ConstraintInitializerSteppable(SteppableBasePy):
             cell.lambdaSurface = self.InitBASAL_LambdaSurface
             cell.targetSurface = self.InitBASAL_TargetSurface
 
-            cell.dict['DivisionCount'] = random.randint(0, self.InitBASAL_Division)
+            # cell.dict['DivisionCount'] = random.randint(0, self.InitBASAL_Division)
+            cell.dict['DivisionCount'] = 0
+
             cell.dict["LambdaChemo"] = self.InitBASAL_LambdaChemo
             ChemotaxisData = self.chemotaxisPlugin.addChemotaxisData(cell, "BASALMVBIAS")            
             ChemotaxisData.setLambda(cell.dict["LambdaChemo"])
@@ -326,21 +352,21 @@ class ConstraintInitializerSteppable(SteppableBasePy):
         # for cell in self.cell_list_by_type(self.SUPER):
         #     self.delete_cell(cell)
 
-        # ---- CELL PARAMETERS UPDATE ----
-        
+        # ---- CELL PARAMETERS UPDATE ----        
         for cell in self.cell_list_by_type(self.BASAL, self.STEM, self.WING, self.SUPER):           
             cell.dict['Pressure'] = abs(cell.pressure)
             cell.dict['Volume'] = cell.volume
             cell.dict['Tear'] = self.TearField.amountSeenByCell(cell)
-            # UPTAKE OF FIELD
-            self.TearField.uptakeInsideCell(cell, 0.8, 0.01)
-            cell.dict['TEAR_Uptake'] = self.TearField.uptakeInsideCellTotalCount(cell, 0.8, 0.01).tot_amount            
-       
+            if cell.type == self.BASAL:
+                # UPTAKE OF FIELD
+                # self.MovementBias.uptakeInsideCell(cell, 0.1, 0.1)
+                cell.dict['Bias_Uptake'] = self.MovementBias.uptakeInsideCellTotalCount(cell, 1, 1).tot_amount            
+            
         for cell in self.cell_list_by_type(self.MEMB):
 
             self.MovementBias.secreteOutsideCellAtBoundaryOnContactWith(cell, self.MovementBiasValue, [self.MEDIUM, self.WING, self.SUPER])
 
-            
+         
  
 class GrowthSteppable(SteppableBasePy):
     def __init__(self,frequency=1):
@@ -348,32 +374,47 @@ class GrowthSteppable(SteppableBasePy):
 
         self.BASAL_HalfMaxValue = ConstraintInitializerSteppable.BASAL_HalfMaxValue
         self.STEM_HalfMaxValue = ConstraintInitializerSteppable.STEM_HalfMaxValue
+        self.cornerCellDiv = 0 
+        self.cornerBASALCellID = 0
 
     def step(self, mcs):              
-        
-               
+        # xCOM = list()
+         
         # ---- BASAL ----
         for cell in self.cell_list_by_type(self.BASAL):
-
+            # print(dir(cell))
+            # xCOM.append(cell.xCOM) 
+            # print('X',cell.xCOM)
+            # print('Xm',cell.xCM, 'Ym', cell.yCM)
+            if cell.xCOM > 195:
+                cell.targetVolume += ((0.001) * (self.BASAL_HalfMaxValue**4/(self.BASAL_HalfMaxValue**4 + cell.dict['Pressure']**4))) # Hill Inhibitor Pressure        
+            else:
+                cell.targetVolume += ((1) * (self.BASAL_HalfMaxValue**4/(self.BASAL_HalfMaxValue**4 + cell.dict['Pressure']**4))) # Hill Inhibitor Pressure        
+                
             # GROWTH THROUGH TEAR 
         #     # cell.targetVolume += (cell.dict['Tear']**4/(18**4 + cell.dict['Tear']**4)) Hill Promoter Tear 
 
             # GROWTH CONTACT INHIBITION             
-            cell.targetVolume += ((1) * (self.BASAL_HalfMaxValue**4/(self.BASAL_HalfMaxValue**4 + cell.dict['Pressure']**4))) # Hill Inhibitor Pressure        
-
+            # cell.targetVolume += ((1) * (self.BASAL_HalfMaxValue**4/(self.BASAL_HalfMaxValue**4 + cell.dict['Pressure']**4))) # Hill Inhibitor Pressure        
+            
+            # CornerBASALCell = self.cell_field[199, 31, 0]
+        
         # ---- STEM ----
         for cell in self.cell_list_by_type(self.STEM):
-
+            # xCOM.append(cell.xCOM)
             # GROWTH THROUGH TEAR 
         #     # cell.targetVolume += (cell.dict['Tear']**4/(18**4 + cell.dict['Tear']**4)) Hill Promoter Tear 
-
-            # GROWTH CONTACT INHIBITION             
-            cell.targetVolume += ((1) * (self.STEM_HalfMaxValue**4/(self.STEM_HalfMaxValue**4 + cell.dict['Pressure']**4))) # Hill Inhibitor Pressure        
-
+            # GROWTH CONTACT INHIBITION 
+            if cell.xCOM < 5:
+                cell.targetVolume += ((0.3) * (self.STEM_HalfMaxValue**4/(self.STEM_HalfMaxValue**4 + cell.dict['Pressure']**4))) # Hill Inhibitor Pressure        
+            else:                        
+                cell.targetVolume += ((1) * (self.STEM_HalfMaxValue**4/(self.STEM_HalfMaxValue**4 + cell.dict['Pressure']**4))) # Hill Inhibitor Pressure        
+        # print(sorted(xCOM))
 class MitosisSteppable(MitosisSteppableBase):
     
     def __init__(self,frequency=1):
         MitosisSteppableBase.__init__(self,frequency)
+        
 
     def step(self, mcs):
 
@@ -383,22 +424,31 @@ class MitosisSteppable(MitosisSteppableBase):
         for cell in self.cell_list_by_type(self.BASAL):
             if cell.volume>50:
                 cells_to_divide.append(cell)
-
+         
         #---STEM---
         for cell in self.cell_list_by_type(self.STEM):
             if cell.volume>75:
                 cells_to_divide.append(cell)
 
+        #---WING---
+        for cell in self.cell_list_by_type(self.WING):
+            if cell.volume>25:
+                cell.targetVolume = 25
+                # cells_to_divide.append(cell)
 
-        for cell in cells_to_divide:            
+        # Division orientation and 
+        for cell in cells_to_divide:
+            NEIGHBOR_DICT = self.get_cell_neighbor_data_list(cell).neighbor_count_by_type()                        
+                  
             # STEM 
             if cell.type == self.STEM:
                 self.set_parent_child_position_flag(1)
-                # self.divide_cell_orientation_vector_based(cell,1,0,0) # Orientation for Stem division
-                self.divide_cell_random_orientation(cell)
-
-            # Basal cell constraints in division    
-            else:
+                if (self.MEMB in NEIGHBOR_DICT.keys()):
+                    self.divide_cell_orientation_vector_based(cell,1,0,0) # Orientation for Stem division
+                else:
+                    self.divide_cell_random_orientation(cell)
+            # BASAL cell constraints in division    
+            elif cell.type == self.BASAL:
                 if cell.dict['DivisionCount'] > 0:
                     cell.dict['DivisionCount'] -= 1                 
                     self.divide_cell_random_orientation(cell)
@@ -406,15 +456,17 @@ class MitosisSteppable(MitosisSteppableBase):
                     cell.type = self.WING # Differentiation Due to Last Division
                     cell.lambdaSurface = ConstraintInitializerSteppable.InitWING_LambdaSurface
                     cell.targetSurface = ConstraintInitializerSteppable.InitWING_TargetSurface                     
-                    self.divide_cell_random_orientation(cell)    
+                    # self.divide_cell_random_orientation(cell)  
+            # WING
+            else: 
+                self.divide_cell_random_orientation(cell)
                 
             # Other valid options
             # self.divide_cell_orientation_vector_based(cell,1,1,0)
             # self.divide_cell_along_major_axis(cell)
             # self.divide_cell_along_minor_axis(cell)
 
-    def update_attributes(self):
-        
+    def update_attributes(self):        
         self.parent_cell.targetVolume /= 2.0            
         self.clone_parent_2_child()            
 
@@ -435,11 +487,10 @@ class DeathSteppable(SteppableBasePy):
         self.radius   = 15  # 15  Abrasion
 
         # DEATH SCALER 
-        self.deathTimeScaler    = ConstraintInitializerSteppable.DeathTimeScaler
-        self.deathVolumeScalar  = ConstraintInitializerSteppable.DeathVolumeScaler                
-        self.sloughScalar       = 50 
-       
-    
+        self.deathTimeScalar    = ConstraintInitializerSteppable.DeathTimeScalar
+        self.deathVolumeScalar  = ConstraintInitializerSteppable.DeathVolumeScalar                
+        self.sloughScalar       = ConstraintInitializerSteppable.SloughScalar
+     
     def step(self, mcs):
         global DEATHCOUNT
 
@@ -480,12 +531,9 @@ class DeathSteppable(SteppableBasePy):
             # ---- PRODUCTION OF TEAR ----           
             # if (mcs > (self.injuryTime + HOURtoMCS * 1)):
             #     self.get_xml_element('Tear_GlbDiff').cdata = 1                
-                
-
-        # --- Constant Cell Death Rate ---          
-        deathsum = 0
-
-        # CONSTANT DEATH RATE (Cell type dependent)
+         
+        # --- Constant Cell Death Rate ---        
+       
         deathsum = 0            
         for cell in self.cell_list_by_type(self.SUPER):
             NEIGHBOR_DICT = self.get_cell_neighbor_data_list(cell).neighbor_count_by_type()  # Checking Neighbors                        
@@ -493,25 +541,24 @@ class DeathSteppable(SteppableBasePy):
             if (self.MEDIUM in NEIGHBOR_DICT.keys()) : # Only cells at the edge has basal death for now            
                 # cell.targetVolume -= (1/(WEEKtoMCS)) * 25 * (random.random()) # adding a stochastic death rate
                 cell.targetVolume -= (1/(WEEKtoMCS)) * self.sloughScalar 
-                cell.lambdaVolume = 100                            
+                # cell.lambdaVolume = 25                            
 
-            if cell.volume < 15: # Minimum Cell Size Before Slough | if no slogh cell will disapear in 672 MCS ~3 days(2.8)
+                if cell.volume < 15: # Minimum Cell Size Before Slough | if no slogh cell will disapear in 672 MCS ~3 days(2.8)
+                    cell.dict['Slough'] = (1 - np.exp(1/(-(HOURtoMCS*self.deathTimeScalar)*(cell.volume*self.deathVolumeScalar))))
                 
-                cell.dict['Slough'] = (1 - np.exp(1/(-(HOURtoMCS*self.deathTimeScaler)*(cell.volume*self.deathVolumeScalar))))
-              
-                if (random.random() < cell.dict['Slough']):
-                    deathsum += 1
-                    self.delete_cell(cell)
+                    if (random.random() < cell.dict['Slough']):
+                        deathsum += 1
+                        self.delete_cell(cell)
         DEATHCOUNT = deathsum
           
 
     
 
 class DifferentiationSteppable(SteppableBasePy):
+
     def __init__(self, frequency=1):      
         SteppableBasePy.__init__(self, frequency)      
-        
-
+      
     def start(self):
        pass
    

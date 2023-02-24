@@ -50,11 +50,11 @@
     <Plugin Name="Contact">
        <!-- Specification of adhesion energies -->
        <Energy Type1="Medium" Type2="Medium">10.0</Energy>
-       <Energy Type1="Medium" Type2="STEM">20.0</Energy>
+       <Energy Type1="Medium" Type2="STEM">10.0</Energy>
        <Energy Type1="Medium" Type2="LIMB">10.0</Energy>
        <Energy Type1="Medium" Type2="BASAL">10.0</Energy>
-       <Energy Type1="Medium" Type2="WING">10.0</Energy>
-       <Energy Type1="Medium" Type2="SUPER">10.0</Energy>
+       <Energy Type1="Medium" Type2="WING">6.0</Energy>
+       <Energy Type1="Medium" Type2="SUPER">6.0</Energy>
        <Energy Type1="Medium" Type2="MEMB">10.0</Energy>
        <Energy Type1="Medium" Type2="STROMA">10.0</Energy>
        <Energy Type1="Medium" Type2="KERATO">10.0</Energy>
@@ -76,20 +76,20 @@
        <Energy Type1="LIMB" Type2="STROMA">10.0</Energy>
        <Energy Type1="LIMB" Type2="KERATO">10.0</Energy>
 
-       <Energy Type1="BASAL" Type2="BASAL">7.0</Energy>
-       <Energy Type1="BASAL" Type2="WING">10.0</Energy>
-       <Energy Type1="BASAL" Type2="SUPER">10.0</Energy>
+       <Energy Type1="BASAL" Type2="BASAL">1.0</Energy>
+       <Energy Type1="BASAL" Type2="WING">15.0</Energy>
+       <Energy Type1="BASAL" Type2="SUPER">20.0</Energy>
        <Energy Type1="BASAL" Type2="MEMB">10.0</Energy>
        <Energy Type1="BASAL" Type2="STROMA">10.0</Energy>
        <Energy Type1="BASAL" Type2="KERATO">10.0</Energy>
 
-       <Energy Type1="WING" Type2="WING">10.0</Energy>
+       <Energy Type1="WING" Type2="WING">5.0</Energy>
        <Energy Type1="WING" Type2="SUPER">10.0</Energy>
        <Energy Type1="WING" Type2="MEMB">15.0</Energy>
        <Energy Type1="WING" Type2="STROMA">10.0</Energy>
        <Energy Type1="WING" Type2="KERATO">10.0</Energy>
 
-       <Energy Type1="SUPER" Type2="SUPER">10.0</Energy>
+       <Energy Type1="SUPER" Type2="SUPER">1.0</Energy>
        <Energy Type1="SUPER" Type2="MEMB">10.0</Energy>
        <Energy Type1="SUPER" Type2="STROMA">10.0</Energy>
        <Energy Type1="SUPER" Type2="KERATO">10.0</Energy>
@@ -233,7 +233,7 @@
     <Steppable Type="PIFInitializer">
    
         <!-- Initial layout of cells using PIFF file. Piff files can be generated using PIFGEnerator -->
-        <PIFName>Homeostasis with Stroma.piff</PIFName>
+        <PIFName>Homeostasis with Stroma without change in Limbus.piff</PIFName>
     </Steppable>
 
 </CompuCell3D>
